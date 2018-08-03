@@ -1,4 +1,4 @@
-﻿#libtinyredis
+#libtinyredis
 一个轻量级的redis客户端库实现
 
 编译说明：
