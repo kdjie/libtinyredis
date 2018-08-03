@@ -1,11 +1,9 @@
 #libtinyredis
-
 一个轻量级的redis客户端库实现
 
 编译说明：
 
 首先安装hiredis:
-
 官方网址：
 http://redis.cn/
 下载，解压和编译：
