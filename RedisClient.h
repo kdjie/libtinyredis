@@ -120,25 +120,18 @@ namespace tinyredis
 		template <typename R>
 		R getValue(const std::string& K, const R& def)
 		{
-			R r = def;
-
 			std::map<std::string, std::string>::iterator iter = m_mapKV.find(K);
 			if (iter == m_mapKV.end())
-				return r;
+				return def;
 
-			std::stringstream ss;
-			ss << iter->second;
-			ss >> r;
-			return r;
+			return convert<R>(iter->second);
 		}
 
 		std::string getValue(const std::string& K, const std::string& def)
 		{
-			std::string r = def;
-
 			std::map<std::string, std::string>::iterator iter = m_mapKV.find(K);
 			if (iter == m_mapKV.end())
-				return r;
+				return def;
 
 			return iter->second;
 		}
