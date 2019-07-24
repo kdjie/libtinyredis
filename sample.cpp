@@ -27,8 +27,8 @@ int main(int argc, char* argv[])
 	CRedisFactory redisFactory;
 
 	// 初使化redis服务配置
-	redisFactory.addRedis("127.0.0.1", 3000, "123456", 1000);
-	redisFactory.addRedis("127.0.0.1", 3001, "123456", 1000);
+	redisFactory.addRedis("127.0.0.1", 3000, "123456", 0, 1000);
+	redisFactory.addRedis("127.0.0.1", 3001, "123456", 0, 1000);
 
 	// 简单的，单KV读写
 	do

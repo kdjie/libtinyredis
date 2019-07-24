@@ -10,10 +10,11 @@
 
 using namespace tinyredis;
 
-CRedisClient::CRedisClient(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uMiniSeconds)
+CRedisClient::CRedisClient(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uDB, uint32_t uMiniSeconds)
 : m_strIp(strIp)
 , m_uPort16(uPort16)
 , m_strPass(strPass)
+, m_uDB(uDB)
 , m_uMiniSeconds(uMiniSeconds)
 , m_pRedisClient(NULL)
 {
@@ -152,6 +153,14 @@ bool CRedisClient::__tryConnect()
 		return false;
 	}
 
+	// 切换DB
+
+	if (m_uDB != 0 && !__selectDB())
+	{
+		__tryDisconnect();
+		return false;
+	}
+
 	__makeErrorString("");
 	return true;
 }
@@ -185,6 +194,33 @@ bool CRedisClient::__auth()
 		result.getString(strStatus);
 
 		__makeErrorString("redis[%s:%u] auth ****** failed, response:%s", m_strIp.c_str(), m_uPort16, strStatus.c_str());
+		return false;
+	}
+
+	__makeErrorString("");
+	return true;
+}
+
+bool CRedisClient::__selectDB()
+{
+	CResult result(true);
+	result = (redisReply*)redisCommand(m_pRedisClient, "select %d", m_uDB);
+
+	if (!result)
+		return false;
+
+	if (!result.isStatus())
+	{
+		__makeErrorString("redis[%s:%u] select %d failed, not support", m_strIp.c_str(), m_uPort16, m_uDB);
+		return false;
+	}
+
+	if (!result.isOK())
+	{
+		std::string strStatus;
+		result.getString(strStatus);
+
+		__makeErrorString("redis[%s:%u] auth %d failed, response:%s", m_strIp.c_str(), m_uPort16, m_uDB, strStatus.c_str());
 		return false;
 	}
 

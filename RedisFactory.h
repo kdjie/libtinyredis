@@ -27,10 +27,11 @@ namespace tinyredis
 		std::string m_strIp;
 		uint16_t m_uPort16;
 		std::string m_strPass;
+		uint32_t m_uDB;
 		uint32_t m_uMiniSeconds;
 
-		SRedisParam(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uMiniSeconds)
-			: m_strIp(strIp), m_uPort16(uPort16), m_strPass(strPass), m_uMiniSeconds(uMiniSeconds)
+		SRedisParam(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uDB, uint32_t uMiniSeconds)
+			: m_strIp(strIp), m_uPort16(uPort16), m_strPass(strPass), m_uDB(uDB), m_uMiniSeconds(uMiniSeconds)
 		{
 		}
 	};
@@ -62,7 +63,7 @@ namespace tinyredis
 		CRedisFactory();
 		virtual ~CRedisFactory();
 
-		void addRedis(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uMiniSeconds);
+		void addRedis(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uDB, uint32_t uMiniSeconds);
 
 		CRedisClient* getRedis(uint32_t uKey);
 		CRedisClient* getRedis(const std::string& strKey);

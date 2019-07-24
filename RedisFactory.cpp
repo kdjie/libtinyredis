@@ -16,7 +16,7 @@ CRedisMap::CRedisMap(const VEC_REDIS_PARAM_t& vecParam)
 {
 	for (VEC_REDIS_PARAM_t::const_iterator c_iter = vecParam.begin(); c_iter != vecParam.end(); ++c_iter)
 	{
-		CRedisClient* pNew = new CRedisClient(c_iter->m_strIp, c_iter->m_uPort16, c_iter->m_strPass, c_iter->m_uMiniSeconds);
+		CRedisClient* pNew = new CRedisClient(c_iter->m_strIp, c_iter->m_uPort16, c_iter->m_strPass, c_iter->m_uDB, c_iter->m_uMiniSeconds);
 		m_mapIdxRedis.insert(std::make_pair(m_mapIdxRedis.size(), pNew));
 	}
 }
@@ -77,9 +77,9 @@ CRedisFactory::~CRedisFactory()
 #endif
 }
 
-void CRedisFactory::addRedis(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uMiniSeconds)
+void CRedisFactory::addRedis(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uDB, uint32_t uMiniSeconds)
 {
-	m_vecRedisParam.push_back( SRedisParam(strIp, uPort16, strPass, uMiniSeconds) );
+	m_vecRedisParam.push_back( SRedisParam(strIp, uPort16, strPass, uDB, uMiniSeconds) );
 }
 
 CRedisClient* CRedisFactory::getRedis(uint32_t uKey)

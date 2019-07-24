@@ -24,7 +24,7 @@ namespace tinyredis
 	class CRedisClient
 	{
 	public:
-		CRedisClient(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uMiniSeconds);
+		CRedisClient(const std::string& strIp, uint16_t uPort16, const std::string& strPass, uint32_t uDB, uint32_t uMiniSeconds);
 		virtual ~CRedisClient();
 
 		const std::string& getErrStr();
@@ -47,6 +47,7 @@ namespace tinyredis
 		bool __tryConnect();
 		void __tryDisconnect();
 		bool __auth();
+		bool __selectDB();
 
 		int32_t __commPrepareReply(redisReply* pReply);
 
@@ -58,6 +59,7 @@ namespace tinyredis
 		std::string m_strIp;
 		uint16_t m_uPort16;
 		std::string m_strPass;
+		uint32_t m_uDB;
 		uint32_t m_uMiniSeconds;
 
 		redisContext* m_pRedisClient;
